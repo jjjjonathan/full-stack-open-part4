@@ -6,8 +6,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "How to be baller",
+  "title": "How to be a dog",
   "author": "Jonny the dog",
-  "url": "http://google.com",
-  "likes": 5
+  "url": "http://google.com/dog",
+  "likes": 345
 }
