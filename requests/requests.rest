@@ -6,8 +6,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "How to be a frog",
-  "author": "Jonny the frog",
-  "url": "http://google.com/frog",
-  "likes": 3453
+  "title": "Jingle Bells the novel",
+  "author": "Miranda Frogsgrove",
+  "url": "http://google.com/novel",
+  "likes": 3453234
 }
