@@ -24,6 +24,11 @@ test('correct number of notes are returned as json', async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
+test('id property is named id, not _id or anything else', async () => {
+  const response = await api.get('/api/blogs');
+  expect(response.body[0].id).toBeDefined();
+});
+
 /********** TESTS ABOVE **********/
 
 afterAll(() => {
