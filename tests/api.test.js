@@ -29,6 +29,23 @@ test('id property is named id, not _id or anything else', async () => {
   expect(response.body[0].id).toBeDefined();
 });
 
+test('adding a new test increments the total number of tests by one', async () => {
+  const newBlog = {
+    title: 'Going-to-the-sun-road',
+    author: 'Marty and Chris',
+    likes: 1,
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const response = await api.get('/api/blogs');
+  expect(response.body).toHaveLength(helper.initialBlogs.length + 1);
+});
+
 /********** TESTS ABOVE **********/
 
 afterAll(() => {
