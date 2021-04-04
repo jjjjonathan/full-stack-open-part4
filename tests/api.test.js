@@ -46,6 +46,18 @@ test('adding a new test increments the total number of tests by one', async () =
   expect(response.body).toHaveLength(helper.initialBlogs.length + 1);
 });
 
+test("if likes aren't included in request, backend will set to 0", async () => {
+  const newBlog = {
+    title: 'Unliked book',
+    author: 'Jack Kerouac',
+  };
+
+  await api.post('/api/blogs').send(newBlog);
+
+  const response = await api.get('/api/blogs');
+  expect(response.body[helper.initialBlogs.length]).toHaveProperty('likes', 0);
+});
+
 /********** TESTS ABOVE **********/
 
 afterAll(() => {
