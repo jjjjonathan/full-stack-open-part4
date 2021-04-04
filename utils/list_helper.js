@@ -2,17 +2,30 @@ const dummy = (blogs) => {
   return 1;
 };
 
-module.exports = {
-  dummy,
+const totalLikes = (blogs) => {
+  return blogs.reduce((acc, blog) => {
+    return acc + blog.likes;
+  }, 0);
 };
 
-const totalLikes = (blogs) => {
-  return blogs.reduce((accumulator, blog) => {
-    return accumulator + blog.likes;
+const favoriteBlog = (blogs) => {
+  const mostLikes = blogs.reduce((acc, blog) => {
+    return Math.max(acc, blog.likes);
   }, 0);
+
+  const favorite = blogs.find((blog) => {
+    return blog.likes === mostLikes;
+  });
+
+  return {
+    title: favorite.title,
+    author: favorite.author,
+    likes: favorite.likes,
+  };
 };
 
 module.exports = {
   dummy,
   totalLikes,
+  favoriteBlog,
 };
