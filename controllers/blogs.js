@@ -1,7 +1,21 @@
-/* const blogsRouter = require('express').Router()
-const Blog = require('../models/blog')
+const blogsRouter = require('express').Router();
+const Blog = require('../models/blog');
 
-notesRouter.get('/', (request, response) => {
+blogsRouter.get('/api/blogs', (request, response) => {
+  Blog.find({}).then((blogs) => {
+    response.json(blogs);
+  });
+});
+
+blogsRouter.post('/api/blogs', (request, response) => {
+  const blog = new Blog(request.body);
+
+  blog.save().then((result) => {
+    response.status(201).json(result);
+  });
+});
+
+/* notesRouter.get('/', (request, response) => {
   Note.find({}).then(notes => {
     response.json(notes)
   })
@@ -56,6 +70,6 @@ notesRouter.put('/:id', (request, response, next) => {
       response.json(updatedNote)
     })
     .catch(error => next(error))
-})
+}) */
 
-module.exports = notesRouter */
+module.exports = blogsRouter;
