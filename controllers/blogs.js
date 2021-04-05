@@ -9,8 +9,6 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body;
 
-  console.log(body.url, body.title);
-
   if (body.url === undefined || body.title === undefined) {
     response.status(400).end();
   } else {
@@ -29,6 +27,15 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.delete('/:id', async (request, response) => {
   await Blog.findByIdAndRemove(request.params.id);
   response.status(204).end();
+});
+
+blogsRouter.put('/:id', async (request, response) => {
+  const body = request.body;
+
+  const updated = await Blog.findByIdAndUpdate(request.params.id, body, {
+    new: true,
+  });
+  response.json(updated);
 });
 
 module.exports = blogsRouter;
