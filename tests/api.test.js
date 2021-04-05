@@ -69,6 +69,15 @@ test('if title or url are missing from request, server responds with status 400'
   await api.post('/api/blogs').send(newBlog).expect(400);
 });
 
+test('total blogs decrement by 1 when deleted', async () => {
+  const getResponse = await api.get('/api/blogs');
+  const id = getResponse.body[0].id;
+  console.log(id);
+
+  const deleteResponse = await api.delete(`/api/blogs/${id}`).expect(204);
+  expect(deleteResponse.body).toHaveLength(helper.initialBlogs.length - 1);
+});
+
 /********** TESTS ABOVE **********/
 
 afterAll(() => {
