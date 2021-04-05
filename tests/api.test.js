@@ -34,6 +34,7 @@ test('adding a new test increments the total number of tests by one', async () =
     title: 'Going-to-the-sun-road',
     author: 'Marty and Chris',
     likes: 1,
+    url: 'http://google.com',
   };
 
   await api
@@ -50,12 +51,22 @@ test("if likes aren't included in request, backend will set to 0", async () => {
   const newBlog = {
     title: 'Unliked book',
     author: 'Jack Kerouac',
+    url: 'http://jackkerouac.com',
   };
 
   await api.post('/api/blogs').send(newBlog);
 
   const response = await api.get('/api/blogs');
   expect(response.body[helper.initialBlogs.length]).toHaveProperty('likes', 0);
+});
+
+test('if title or url are missing from request, server responds with status 400', async () => {
+  const newBlog = {
+    author: 'Andres Chinchin',
+    likes: 982731,
+  };
+
+  await api.post('/api/blogs').send(newBlog).expect(400);
 });
 
 /********** TESTS ABOVE **********/
