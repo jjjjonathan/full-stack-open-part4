@@ -72,12 +72,25 @@ test('if title or url are missing from request, server responds with status 400'
 test('total blogs decrement by 1 when deleted', async () => {
   const firstGetResponse = await api.get('/api/blogs');
   const id = firstGetResponse.body[0].id;
-  console.log(id);
 
   await api.delete(`/api/blogs/${id}`).expect(204);
 
   const secondGetResponse = await api.get('/api/blogs');
   expect(secondGetResponse.body).toHaveLength(helper.initialBlogs.length - 1);
+});
+
+test('updating likes succeeds', async () => {
+  const newBlog = {
+    likes: 2381,
+  };
+
+  const firstGetResponse = await api.get('/api/blogs');
+  const id = firstGetResponse.body[0].id;
+
+  await api.put(`/api/blogs/${id}`).send(newBlog).expect(200);
+
+  const secondGetResponse = await api.get('/api/blogs');
+  expect(secondGetResponse.body[0]).toHaveProperty('likes', newBlog.likes);
 });
 
 /********** TESTS ABOVE **********/
