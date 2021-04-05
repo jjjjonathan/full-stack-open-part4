@@ -70,12 +70,14 @@ test('if title or url are missing from request, server responds with status 400'
 });
 
 test('total blogs decrement by 1 when deleted', async () => {
-  const getResponse = await api.get('/api/blogs');
-  const id = getResponse.body[0].id;
+  const firstGetResponse = await api.get('/api/blogs');
+  const id = firstGetResponse.body[0].id;
   console.log(id);
 
-  const deleteResponse = await api.delete(`/api/blogs/${id}`).expect(204);
-  expect(deleteResponse.body).toHaveLength(helper.initialBlogs.length - 1);
+  await api.delete(`/api/blogs/${id}`).expect(204);
+
+  const secondGetResponse = await api.get('/api/blogs');
+  expect(secondGetResponse.body).toHaveLength(helper.initialBlogs.length - 1);
 });
 
 /********** TESTS ABOVE **********/
