@@ -50,8 +50,26 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id);
-  response.status(204).end();
+  const token = getToken(request);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({
+      error: 'missing or invalid token',
+    });
+  }
+
+  const blog = await Blog.findById(request.params.id);
+
+  if (blog.user.toString() !== decodedToken.id.toString()) {
+    return response.status(403).json({
+      error: 'cannot delete note that is not yours',
+    });
+  } else {
+    console.log(blog.user, decodedToken.id);
+    await Blog.findByIdAndRemove(request.params.id);
+    response.status(204).end();
+  }
 });
 
 blogsRouter.put('/:id', async (request, response) => {
