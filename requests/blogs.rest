@@ -1,0 +1,13 @@
+GET http://localhost:3004/api/blogs
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Hello World",
+  "author": "Mr. Helsinki",
+  "url": "http://google.com/uh",
+  "likes": 12
+}
